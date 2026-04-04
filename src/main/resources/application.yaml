@@ -1,0 +1,45 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: TodoCode
+
+  datasource:
+      # Si usas Docker Desktop en la misma PC, el host es localhost
+      url: jdbc:postgresql://localhost:5432/prueba_todo_code
+      username: postgres
+      password: admin
+      driver-class-name: org.postgresql.Driver
+
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    # hibernate.ddl-auto:
+    # 'update' crea las tablas automáticamente si no existen
+    hibernate:
+      ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+
+    # Configuración para ver los logs de SQL
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true # Hace que el SQL se vea ordenado y no en una sola línea
+        highlight_sql: true # Le da color al SQL en la consola (si tu IDE lo soporta)
+
+
+
+# Opcional: Ajustar el nivel de log para ver parámetros de las consultas
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    # Si quieres ver los valores que se insertan en los '?', descomenta la línea de abajo:
+    # org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+
+app:
+  security:
+    jwt-secret: ${JWT-SECRET:12345678}
