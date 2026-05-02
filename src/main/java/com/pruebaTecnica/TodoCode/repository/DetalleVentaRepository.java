@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface DetalleVentaRepository extends JpaRepository<DetalleVenta, Long> {
-    @Query("SELECT d.producto AS producto, SUM(d.cantidad) AS cantidadTotal" +
+    @Query("SELECT d.producto AS producto, SUM(d.cantidad) AS cantidadTotal " +
             "FROM DetalleVenta d " +
             "GROUP BY d.producto " +
             "ORDER BY SUM(d.cantidad) DESC")

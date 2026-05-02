@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class EstadisticasService {
     private final DetalleVentaRepository detalleVentaRepository;
 
-    public Map<Producto, Integer> topVendidos(int limiteTop){
+    public Map<Producto, Long> topVendidos(int limiteTop){
         Pageable pageable = PageRequest.of(0, limiteTop);
 
         List<Tuple> productosTop = detalleVentaRepository.top10Vendidos(pageable);
@@ -27,7 +27,7 @@ public class EstadisticasService {
         return productosTop.stream()
                 .collect(Collectors.toMap(
                         tuple -> tuple.get("producto", Producto.class),
-                        tuple -> tuple.get("cantidadTotal", Integer.class),
+                        tuple -> tuple.get("cantidadTotal", Long.class),
                         (cantidad1, cantidad2) -> cantidad1,
                         LinkedHashMap::new
                 ));
