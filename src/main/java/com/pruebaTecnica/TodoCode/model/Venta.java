@@ -30,6 +30,8 @@ public class Venta {
     @JoinColumn(name = "id_sucursal")
     private Sucursal sucursal;
 
+
+
     private LocalDateTime fecha_venta;
 
     public void agregarVentaADetalle(DetalleVenta detalleVenta){

@@ -2,6 +2,7 @@ package com.pruebaTecnica.TodoCode.service;
 
 import com.pruebaTecnica.TodoCode.dto.user.ActualizarUsersDTO;
 import com.pruebaTecnica.TodoCode.dto.user.RegistroUsersDTO;
+import com.pruebaTecnica.TodoCode.dto.user.UserDetallesDTO;
 import com.pruebaTecnica.TodoCode.mapper.UserMapper;
 import com.pruebaTecnica.TodoCode.model.user.User;
 import com.pruebaTecnica.TodoCode.repository.UserRepository;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements CrudServicesInterface<User,Long, RegistroUsersDTO, ActualizarUsersDTO> {
+public class UserService implements CrudServicesInterface<User,Long, RegistroUsersDTO, ActualizarUsersDTO, UserDetallesDTO> {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
@@ -52,8 +53,10 @@ public class UserService implements CrudServicesInterface<User,Long, RegistroUse
     }
 
     @Override
-    public Page<User> listarTodos(Pageable pageable) {
-        return userRepository.findAllByActivoTrue(pageable);
+    public Page<UserDetallesDTO> listarTodos(Pageable pageable) {
+
+        return userRepository.findAllByActivoTrue(pageable)
+                .map(UserDetallesDTO::new);
     }
 
 

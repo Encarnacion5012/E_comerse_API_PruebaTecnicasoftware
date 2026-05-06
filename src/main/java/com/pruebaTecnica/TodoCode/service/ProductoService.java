@@ -1,6 +1,7 @@
 package com.pruebaTecnica.TodoCode.service;
 
 import com.pruebaTecnica.TodoCode.dto.producto.ActualizarProductoDTO;
+import com.pruebaTecnica.TodoCode.dto.producto.DetallePrductoDTO;
 import com.pruebaTecnica.TodoCode.dto.producto.RegistarProductoDTO;
 import com.pruebaTecnica.TodoCode.mapper.ProductoMapper;
 import com.pruebaTecnica.TodoCode.model.producto.Producto;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ProductoService implements CrudServicesInterface<Producto, Long, RegistarProductoDTO, ActualizarProductoDTO>{
+public class ProductoService implements CrudServicesInterface<Producto, Long, RegistarProductoDTO, ActualizarProductoDTO, DetallePrductoDTO>{
     private final ProductoRepository productoRepository;
     private final ProductoMapper productoMapper;
 
@@ -48,7 +49,8 @@ public class ProductoService implements CrudServicesInterface<Producto, Long, Re
     }
 
     @Override
-    public Page<Producto> listarTodos(Pageable pageable) {
-        return productoRepository.findAllByActivoTrue(pageable);
+    public Page<DetallePrductoDTO> listarTodos(Pageable pageable) {
+        return productoRepository.findAllByActivoTrue(pageable)
+                .map(DetallePrductoDTO::new);
     }
 }

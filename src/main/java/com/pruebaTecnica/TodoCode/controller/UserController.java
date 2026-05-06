@@ -6,6 +6,7 @@ import com.pruebaTecnica.TodoCode.dto.user.UserDetallesDTO;
 import com.pruebaTecnica.TodoCode.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -46,9 +47,8 @@ public class UserController {
     }
 
     @GetMapping("/listar")
-    public ResponseEntity listarUsuarios(@PageableDefault(size = 10, sort = {"nombre"})Pageable paginacion){
-        var usuarios = userService.listarTodos(paginacion)
-                .map(UserDetallesDTO::new).toList();
+    public ResponseEntity <Page<UserDetallesDTO>> listarUsuarios(@PageableDefault(size = 10, sort = {"nombre"})Pageable paginacion){
+        var usuarios = userService.listarTodos(paginacion);
 
         return ResponseEntity.ok().body(usuarios);
     }

@@ -6,6 +6,7 @@ import com.pruebaTecnica.TodoCode.dto.producto.RegistarProductoDTO;
 import com.pruebaTecnica.TodoCode.service.ProductoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -39,12 +40,11 @@ public class ProductoController {
         return ResponseEntity.ok(new DetallePrductoDTO(producto));
     }
 
-    @GetMapping("/lisar")
-    public ResponseEntity listarTodos(@PageableDefault(size = 10, sort = {"nombre"})Pageable pageable){
-        var productos = productoService.listarTodos(pageable)
-                .map(DetallePrductoDTO::new).toList();
+    @GetMapping("/listar")
+    public ResponseEntity<Page<DetallePrductoDTO>> listarTodos(@PageableDefault(size = 10, sort = {"nombre"})Pageable pageable){
+        var productos = productoService.listarTodos(pageable);
 
-        return ResponseEntity.ok(productos);
+        return ResponseEntity.ok().body(productos);
     }
 
     @DeleteMapping("/eliminar/{id}")

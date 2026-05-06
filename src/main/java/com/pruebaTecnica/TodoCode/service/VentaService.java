@@ -1,6 +1,7 @@
 package com.pruebaTecnica.TodoCode.service;
 
 import com.pruebaTecnica.TodoCode.dto.venta.RegistrarVentaDTO;
+import com.pruebaTecnica.TodoCode.dto.venta.VentaDetalladaDTO;
 import com.pruebaTecnica.TodoCode.infra.exception.StockInsuficienteExeption;
 import com.pruebaTecnica.TodoCode.model.DetalleVenta;
 import com.pruebaTecnica.TodoCode.model.Venta;
@@ -10,10 +11,16 @@ import com.pruebaTecnica.TodoCode.repository.VentaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -66,4 +73,16 @@ public class VentaService {
        venta.setTotal(total);
        return ventaRepository.save(venta);
     }
+
+    public Page<VentaDetalladaDTO> listarVentas(Pageable pageable) {
+        return ventaRepository.findAll(pageable)
+                .map(VentaDetalladaDTO::new);
+
+    }
+
+    public List<Venta> listarVentasEnUnaCiertaFecha(LocalDate fechaLImite){
+        return ventaRepository.listarVentasHastaCiertaFecha(fechaLImite);
+    }
+
+
 }

@@ -1,16 +1,21 @@
 package com.pruebaTecnica.TodoCode.controller;
 
+import com.pruebaTecnica.TodoCode.dto.venta.BuscarVentaPofFechaDTO;
 import com.pruebaTecnica.TodoCode.dto.venta.RegistrarVentaDTO;
 import com.pruebaTecnica.TodoCode.dto.venta.VentaDetalladaDTO;
 import com.pruebaTecnica.TodoCode.service.VentaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/ventas")
@@ -24,4 +29,26 @@ public class VentaController {
         var uri = uriComponentsBuilder.path("/ventas/registrar/{id}").buildAndExpand(venta.getId()).toUri();
         return ResponseEntity.created(uri).body(new VentaDetalladaDTO(venta));
     }
+
+    @GetMapping("/listar")
+    ResponseEntity<Page<VentaDetalladaDTO>> listarTodasLasVentas(@PageableDefault(size = 10, sort = {"total"}) Pageable pageable){
+        var ventas = ventaService.listarVentas(pageable);
+
+
+
+        return ResponseEntity.ok().body(ventas);
+    }
+
+    @GetMapping("/bucar_por_fecha")
+    public ResponseEntity  ventasPorFechas(@RequestBody BuscarVentaPofFechaDTO fechaDTO){
+        var ventas = ventaService.listarVentasEnUnaCiertaFecha(fechaDTO.fecha()).stream()
+                .map(VentaDetalladaDTO::new)
+                .toList();
+
+        return ResponseEntity.ok(ventas);
+    }
+
+
+
+
 }
