@@ -1,6 +1,6 @@
 package com.pruebaTecnica.TodoCode.controller;
 
-import com.pruebaTecnica.TodoCode.dto.venta.BuscarVentaPofFechaDTO;
+import com.pruebaTecnica.TodoCode.dto.venta.BuscarVentaPorFechaDTO;
 import com.pruebaTecnica.TodoCode.dto.venta.RegistrarVentaDTO;
 import com.pruebaTecnica.TodoCode.dto.venta.VentaDetalladaDTO;
 import com.pruebaTecnica.TodoCode.service.VentaService;
@@ -13,9 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/ventas")
@@ -40,7 +38,7 @@ public class VentaController {
     }
 
     @GetMapping("/bucar_por_fecha")
-    public ResponseEntity  ventasPorFechas(@RequestBody BuscarVentaPofFechaDTO fechaDTO){
+    public ResponseEntity  ventasPorFechas(@RequestBody BuscarVentaPorFechaDTO fechaDTO){
         var ventas = ventaService.listarVentasEnUnaCiertaFecha(fechaDTO.fecha()).stream()
                 .map(VentaDetalladaDTO::new)
                 .toList();

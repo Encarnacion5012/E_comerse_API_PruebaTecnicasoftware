@@ -2,6 +2,7 @@ package com.pruebaTecnica.TodoCode.controller;
 
 import com.pruebaTecnica.TodoCode.dto.sucursal.DetalleSucursalDTO;
 import com.pruebaTecnica.TodoCode.dto.sucursal.RegistroSucursalDTO;
+import com.pruebaTecnica.TodoCode.mapper.SucursalMapper;
 import com.pruebaTecnica.TodoCode.service.SucursalService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +18,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 public class SucursalController {
     private final SucursalService sucursalService;
+    private final SucursalMapper sucursalMapper;
 
     @PostMapping("/registrar")
     public ResponseEntity registarSucursales(@RequestBody @Valid RegistroSucursalDTO dto, UriComponentsBuilder uriComponentsBuilder){
         var sucursal = sucursalService.registar(dto);
         var uri = uriComponentsBuilder.path("/sucursales/registrar/{id}").buildAndExpand(sucursal.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new DetalleSucursalDTO(sucursal));
+        return ResponseEntity.created(uri).body(sucursalMapper.toDto(sucursal));
     }
 }
