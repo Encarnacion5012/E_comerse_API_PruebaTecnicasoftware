@@ -3,6 +3,7 @@ package com.pruebaTecnica.TodoCode.controller;
 import com.pruebaTecnica.TodoCode.dto.venta.BuscarVentaPorFechaDTO;
 import com.pruebaTecnica.TodoCode.dto.venta.RegistrarVentaDTO;
 import com.pruebaTecnica.TodoCode.dto.venta.VentaDetalladaDTO;
+import com.pruebaTecnica.TodoCode.mapper.VentaMapper;
 import com.pruebaTecnica.TodoCode.service.VentaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
 
 
 @RestController
@@ -20,12 +22,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 public class VentaController {
     private final VentaService ventaService;
+    private final VentaMapper ventaMapper;
 
     @PostMapping("/registar")
-    public ResponseEntity registrarVenta(@RequestBody @Valid RegistrarVentaDTO dto, UriComponentsBuilder uriComponentsBuilder ){
+    public ResponseEntity<VentaDetalladaDTO> registrarVenta(@RequestBody @Valid RegistrarVentaDTO dto, UriComponentsBuilder uriComponentsBuilder ){
        var venta = ventaService.registrarVenta(dto);
         var uri = uriComponentsBuilder.path("/ventas/registrar/{id}").buildAndExpand(venta.getId()).toUri();
-        return ResponseEntity.created(uri).body(new VentaDetalladaDTO(venta));
+        return ResponseEntity.created(uri).body(ventaMapper.toDto(venta));
     }
 
     @GetMapping("/listar")
@@ -38,9 +41,9 @@ public class VentaController {
     }
 
     @GetMapping("/bucar_por_fecha")
-    public ResponseEntity  ventasPorFechas(@RequestBody BuscarVentaPorFechaDTO fechaDTO){
+    public ResponseEntity<List<VentaDetalladaDTO>>  ventasPorFechas(@RequestBody BuscarVentaPorFechaDTO fechaDTO){
         var ventas = ventaService.listarVentasEnUnaCiertaFecha(fechaDTO.fecha()).stream()
-                .map(VentaDetalladaDTO::new)
+                .map(ventaMapper::toDto)
                 .toList();
 
         return ResponseEntity.ok(ventas);

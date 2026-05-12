@@ -10,6 +10,8 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface VentaMapper {
+
+
     @Mapping(source = "venta.sucursal.nombre", target = "sucursal")
     VentaDetalladaDTO toDto(Venta venta);
 

@@ -3,6 +3,7 @@ package com.pruebaTecnica.TodoCode.service;
 import com.pruebaTecnica.TodoCode.dto.venta.RegistrarVentaDTO;
 import com.pruebaTecnica.TodoCode.dto.venta.VentaDetalladaDTO;
 import com.pruebaTecnica.TodoCode.infra.exception.StockInsuficienteExeption;
+import com.pruebaTecnica.TodoCode.mapper.VentaMapper;
 import com.pruebaTecnica.TodoCode.model.DetalleVenta;
 import com.pruebaTecnica.TodoCode.model.Venta;
 import com.pruebaTecnica.TodoCode.repository.ProductoRepository;
@@ -18,8 +19,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -29,6 +29,7 @@ public class VentaService {
     private final VentaRepository ventaRepository;
     private final SucursalRepository sucursalRepository;
     private final ProductoRepository productoRepository;
+    private final VentaMapper ventaMapper;
 
     @Transactional
     public Venta registrarVenta(RegistrarVentaDTO dto){
@@ -76,7 +77,8 @@ public class VentaService {
 
     public Page<VentaDetalladaDTO> listarVentas(Pageable pageable) {
         return ventaRepository.findAll(pageable)
-                .map(VentaDetalladaDTO::new);
+                .map(ventaMapper::toDto)
+                ;
 
     }
 

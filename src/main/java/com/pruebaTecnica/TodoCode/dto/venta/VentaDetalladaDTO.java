@@ -14,13 +14,13 @@ public record VentaDetalladaDTO(
         List<DetalleVentaDetalladoDTO> detalleVenta,
         BigDecimal total
 ) {
-    public VentaDetalladaDTO(Venta v){
-        this(
-                v.getId(),
-                v.getSucursal().getNombre(),
-                v.getFecha_venta(),
-                v.getDetalleVentas().stream().map(DetalleVentaDetalladoDTO::new).toList(),
-                v.getTotal()
-        );
-    }
+//    public VentaDetalladaDTO(Venta v){
+//        this(
+//                v.getId(),
+//                v.getSucursal().getNombre(),
+//                v.getFecha_venta(),
+//                v.getDetalleVentas().stream().map(DetalleVentaDetalladoDTO::new).toList(),
+//                v.getTotal()
+//        );
+//    }
 }

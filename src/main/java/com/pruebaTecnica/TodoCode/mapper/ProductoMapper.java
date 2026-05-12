@@ -1,6 +1,7 @@
 package com.pruebaTecnica.TodoCode.mapper;
 
 import com.pruebaTecnica.TodoCode.dto.producto.ActualizarProductoDTO;
+import com.pruebaTecnica.TodoCode.dto.producto.DetallePrductoDTO;
 import com.pruebaTecnica.TodoCode.dto.producto.RegistarProductoDTO;
 import com.pruebaTecnica.TodoCode.model.producto.Producto;
 import org.mapstruct.*;
@@ -12,5 +13,7 @@ public interface ProductoMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void ActualizarProductoDesdeDTO(ActualizarProductoDTO dto, @MappingTarget Producto producto);
+
+    DetallePrductoDTO toDtoDetalleP(Producto producto);
 
 }

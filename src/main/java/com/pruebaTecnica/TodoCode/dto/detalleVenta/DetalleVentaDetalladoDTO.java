@@ -9,11 +9,5 @@ public record DetalleVentaDetalladoDTO(
         int cantidad,
         BigDecimal subTotal
 ) {
-    public DetalleVentaDetalladoDTO(DetalleVenta dt){
-    this(
-            dt.getProducto().getNombre(),
-            dt.getCantidad(),
-            dt.getSub_total()
-    );
-    }
+
 }
