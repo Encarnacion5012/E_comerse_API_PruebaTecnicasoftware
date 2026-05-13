@@ -11,21 +11,19 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class UserService implements CrudServicesInterface<User,Long, RegistroUsersDTO, ActualizarUsersDTO, UserDetallesDTO> {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+
     private final UserMapper userMapper;
 
     @Transactional
     @Override
     public User registrar(RegistroUsersDTO datos) {
-        var user = new User(datos);
-        user.setClave(passwordEncoder.encode(datos.clave()));
+        var user = userMapper.toEntity(datos);
 
         return userRepository.save(user);
     }

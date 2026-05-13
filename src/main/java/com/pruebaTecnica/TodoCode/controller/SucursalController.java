@@ -21,7 +21,7 @@ public class SucursalController {
     private final SucursalMapper sucursalMapper;
 
     @PostMapping("/registrar")
-    public ResponseEntity registarSucursales(@RequestBody @Valid RegistroSucursalDTO dto, UriComponentsBuilder uriComponentsBuilder){
+    public ResponseEntity registarSucursales(@RequestBody @Valid RegistroSucursalDTO dto, UriComponentsBuilder uriComponentsBuilder) {
         var sucursal = sucursalService.registar(dto);
         var uri = uriComponentsBuilder.path("/sucursales/registrar/{id}").buildAndExpand(sucursal.getId()).toUri();
 

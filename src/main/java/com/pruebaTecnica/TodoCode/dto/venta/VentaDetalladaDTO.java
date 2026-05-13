@@ -10,8 +10,8 @@ import java.util.List;
 public record VentaDetalladaDTO(
         long id,
         String sucursal,
-        LocalDateTime fecha_Venta,
-        List<DetalleVentaDetalladoDTO> detalleVenta,
+        LocalDateTime fecha_venta,
+        List<DetalleVentaDetalladoDTO> detalleVentas,
         BigDecimal total
 ) {
 //    public VentaDetalladaDTO(Venta v){

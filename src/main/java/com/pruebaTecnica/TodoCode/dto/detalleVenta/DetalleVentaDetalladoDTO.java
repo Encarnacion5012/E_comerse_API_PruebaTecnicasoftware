@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public record DetalleVentaDetalladoDTO(
         String producto,
         int cantidad,
-        BigDecimal subTotal
+        BigDecimal sub_total
 ) {
 
 }

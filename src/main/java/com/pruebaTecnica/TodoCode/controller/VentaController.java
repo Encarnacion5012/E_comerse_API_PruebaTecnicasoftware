@@ -41,7 +41,7 @@ public class VentaController {
     }
 
     @GetMapping("/bucar_por_fecha")
-    public ResponseEntity<List<VentaDetalladaDTO>>  ventasPorFechas(@RequestBody BuscarVentaPorFechaDTO fechaDTO){
+    public ResponseEntity<List<VentaDetalladaDTO>> ventasPorFechas(@RequestBody BuscarVentaPorFechaDTO fechaDTO){
         var ventas = ventaService.listarVentasEnUnaCiertaFecha(fechaDTO.fecha()).stream()
                 .map(ventaMapper::toDto)
                 .toList();

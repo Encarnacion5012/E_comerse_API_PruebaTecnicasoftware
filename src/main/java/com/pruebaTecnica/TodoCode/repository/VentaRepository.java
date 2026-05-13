@@ -14,6 +14,6 @@ import java.util.List;
 public interface VentaRepository extends JpaRepository<Venta, Long> {
     Page<Venta>findAll(@NonNull Pageable pageable);
 
-    @Query("Select v FROM Venta v WHERE FUNCTION('DATE', v.fecha_venta) <= :fecha_Limite")
+    @Query("SELECT DISTINCT v FROM Venta v LEFT JOIN FETCH v.detalleVentas WHERE v.fecha_venta <= :fechaLimite")
     List<Venta>listarVentasHastaCiertaFecha(LocalDate fecha_Limite);
 }
