@@ -1,0 +1,41 @@
+services:
+  db-e_comerse:
+    image: postgres:17-alpine
+    container_name: db-e_comerse
+    environment:
+      POSTGRES_DB: prueba_todo_code
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Estudent1!
+
+    ports:
+      - "5431:5432"
+    volumes:
+      - db-e_comerse_data:/var/lib/postgresql/data
+
+  e_comerse_app:
+    container_name: e_comerse_app
+    image: e-comerse_app:v1
+    environment:
+      DB_HOST: db-e_comerse
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: Estudent1!
+      DB_NAME: prueba_todo_code
+    ports:
+      - "9090:9090"
+    depends_on:
+      -  db-e_comerse
+    restart: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 7s
+        max_attempts: 5
+
+
+
+
+
+volumes:
+  db-e_comerse_data:
+    driver: local

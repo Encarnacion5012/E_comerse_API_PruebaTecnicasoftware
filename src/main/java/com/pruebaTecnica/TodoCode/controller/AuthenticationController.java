@@ -28,6 +28,7 @@ public class AuthenticationController {
         var authenticationToken = new UsernamePasswordAuthenticationToken(datos.email(), datos.clave());
         var authentication = auManager.authenticate(authenticationToken);
 
+
         var tokenJWT = tokenService.generarToken((User) authentication.getPrincipal());
 
         return ResponseEntity.ok().body(new TokemJWTDTO(tokenJWT));

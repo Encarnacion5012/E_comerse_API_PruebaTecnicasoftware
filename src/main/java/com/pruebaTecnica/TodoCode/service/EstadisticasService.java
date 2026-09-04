@@ -1,5 +1,6 @@
 package com.pruebaTecnica.TodoCode.service;
 
+import com.pruebaTecnica.TodoCode.dto.estadistica.Producto_Top_Precyection;
 import com.pruebaTecnica.TodoCode.model.producto.Producto;
 import com.pruebaTecnica.TodoCode.repository.DetalleVentaRepository;
 import jakarta.persistence.Tuple;
@@ -19,17 +20,23 @@ import java.util.stream.Collectors;
 public class EstadisticasService {
     private final DetalleVentaRepository detalleVentaRepository;
 
-    public Map<Producto, Long> topVendidos(int limiteTop){
-        Pageable pageable = PageRequest.of(0, limiteTop);
+//    public Map<Producto, Long> topVendidos(int limiteTop){
+//        Pageable pageable = PageRequest.of(0, limiteTop);
+//
+//        List<Tuple> productosTop = detalleVentaRepository.top10Vendidos(pageable);
+//
+//        return productosTop.stream()
+//                .collect(Collectors.toMap(
+//                        tuple -> tuple.get("producto", Producto.class),
+//                        tuple -> tuple.get("cantidadTotal", Long.class),
+//                        (cantidad1, cantidad2) -> cantidad1,
+//                        LinkedHashMap::new
+//                ));
+//    }
 
-        List<Tuple> productosTop = detalleVentaRepository.top10Vendidos(pageable);
+    public List<Producto_Top_Precyection> top10VendidosConProyecciones(int limite){
+        Pageable pageable = PageRequest.of(0, limite);
+        return detalleVentaRepository.top10VendidosProyeccion(pageable);
 
-        return productosTop.stream()
-                .collect(Collectors.toMap(
-                        tuple -> tuple.get("producto", Producto.class),
-                        tuple -> tuple.get("cantidadTotal", Long.class),
-                        (cantidad1, cantidad2) -> cantidad1,
-                        LinkedHashMap::new
-                ));
     }
 }
